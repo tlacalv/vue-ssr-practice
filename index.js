@@ -1,5 +1,5 @@
 //Vue instance 
-const Vue = require('vue');
+const createApp = require('./app');
 const server = require('express')();
 const PORT = 8080;
 
@@ -9,7 +9,7 @@ const renderer = require('vue-server-renderer').createRenderer({
 });
 
 //template interpolation
-const context = {
+const contextTemplate = {
     title: 'Hello SSR Vue',
     metas: `
         <meta name="keyword" content="vue,ssr">
@@ -21,14 +21,10 @@ const context = {
 
 //server
 server.get('*', (req, res) => {
-    const app = new Vue({
-        data: {
-            url: req.url,
-        },
-        template: `<div>The visited URL is {{ url }}</div>`
-    });
+    const context = {  url: req.url };
+    const app = createApp(context);
     
-    renderer.renderToString(app, context)
+    renderer.renderToString(app, contextTemplate)
         .then(html => {
             res.end(html);
         })
