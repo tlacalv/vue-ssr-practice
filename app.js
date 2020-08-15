@@ -1,10 +1,16 @@
 import Vue from 'vue';
 import App from './App.vue';
+import { createRouter } from './router';
 
-
-module.exports = createApp = () => {
+export function createApp() {
+    //create router instance
+    const router = createRouter();
     const app = new Vue({
+        //inject router into Vue instance
+        router,
         render: h=> h(App)
     });
-    return { app }
+    //return both the app and the router
+    return {  app, router  }
+
 }

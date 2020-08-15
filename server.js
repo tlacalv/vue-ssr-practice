@@ -1,5 +1,5 @@
 //Vue instance 
-const createApp = require('./app');
+const createApp = require('./app'); //path to built server bundle
 const server = require('express')();
 const PORT = 8080;
 
@@ -22,16 +22,23 @@ const contextTemplate = {
 //server
 server.get('*', (req, res) => {
     const context = {  url: req.url };
-    const app = createApp(context);
-    
-    renderer.renderToString(app, contextTemplate)
-        .then(html => {
-            res.end(html);
+
+    createApp(context)
+        .then(app => {
+            renderer.renderToString(app, contextTemplate)
+                .then(html => {
+                    res.end(html);
+                })
+                .catch(err => {
+                    if(err.code === 404) {
+                        res.status(404).end('Page not found');
+                    } else {
+                        res.status(500).end('Internal Server Eerror');
+                    }
+                });
+
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end('Internal Server Eerror');
-        });
+    
 });
 
 server.listen(PORT);
