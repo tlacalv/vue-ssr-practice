@@ -1,9 +1,12 @@
 import { createApp } from './app';
-import { Router } from 'express';
 
-const { app } = createApp();
+const { app, router, store } = createApp();
 
-//assiming App.vue template root element has `id="app"`
-Router.onReady(() => {
+if(window.__INITIAL_STATE__) {
+    // we initialize the store state with the data injected from the server
+    store.replaceState(window.__INITIAL_STATE__);
+}
+router.onReady(() => {
+    //assiming App.vue template root element has `id="app"`
     app.$mount('#app');
 })
