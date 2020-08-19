@@ -1,10 +1,11 @@
 <template>
-    <div>The visited URL is {{ url }}</div>
+    <div>App
+        <router-view></router-view>
+    </div>
+
 </template>
 <script>
 export default {
-    data: {
-        url: context.url,
-    },
+    
 }
 </script>

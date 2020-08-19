@@ -8,5 +8,5 @@ if(window.__INITIAL_STATE__) {
 }
 router.onReady(() => {
     //assiming App.vue template root element has `id="app"`
-    app.$mount('#app');
+    app.$mount('#app', true);
 })

@@ -5,7 +5,22 @@ Vue.use(Vuex);
 
 //Assume we have a universal API that returns Promises
 //and ignore the implementation details
-import { fetchItem } from './api';
+// import { fetchItem } from './api';
+let fetchItem = (id) => {
+    return new Promise((res, rej) => {
+        let items = [
+            {
+                id: 1,
+                title:'hol'
+            },
+            {
+                id: 2,
+                title:'adi'
+            },
+        ]
+        res(items.find(item=>item.id==id));
+    })
+}
 
 export function createStore() {
     return new Vuex.Store({
@@ -22,7 +37,8 @@ export function createStore() {
                     .then(item => {
                         commit('setItem', { id, item})
                     })
-            }
+                    .catch(err => console.log(err))
+                }
         },
         mutations: {
             setItem (state, { id, item }) {
